@@ -1,25 +1,47 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [fixtures, setFixtures] = useState([]);
+
+    useEffect(() => {
+        fetch('/fixtures')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data);
+                if (Array.isArray(data)) {
+                    setFixtures(data);
+                } else {
+                    console.error('Data is not an array:', data);
+                    setFixtures([]);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }, []);
+
+    return (
+        <div className="App">
+            <h1>Przyszłe mecze Manchester City</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Przeciwnik</th>
+                        <th>Stadion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {fixtures.map((fixture, index) => (
+                        <tr key={index}>
+                            <td>{fixture.date}</td>
+                            <td>{fixture.opponent}</td>
+                            <td>{fixture.venue}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 export default App;
