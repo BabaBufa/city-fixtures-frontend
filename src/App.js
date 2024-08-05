@@ -26,6 +26,7 @@ function App() {
                 <thead>
                     <tr>
                         <th>Data</th>
+                        <th>Gospodarz</th>
                         <th>Przeciwnik</th>
                         <th>Stadion</th>
                     </tr>
@@ -34,7 +35,14 @@ function App() {
                     {fixtures.map((fixture, index) => (
                         <tr key={index}>
                             <td>{fixture.date}</td>
-                            <td>{fixture.opponent}</td>
+                            <td>
+                                <img src={fixture.homeTeam.crest} alt={`${fixture.homeTeam.name} crest`} width="30" height="30"/>
+                                {fixture.homeTeam.name}
+                            </td>
+                            <td>
+                                <img src={fixture.opponent.crest} alt={`${fixture.opponent.name} crest`} width="30" height="30"/>
+                                {fixture.opponent.name}
+                            </td>
                             <td>{fixture.venue}</td>
                         </tr>
                     ))}
